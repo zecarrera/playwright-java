@@ -31,7 +31,9 @@ public class TestBase {
 
         browser = playwrightManager.getBrowser();
 
-        page = playwrightManager.getPage();
+        if (!newContextForEachTest) {
+            page = playwrightManager.getPage();
+        }
 
         baseUrl = configuration.getBaseUrl();
     }
