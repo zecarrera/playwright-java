@@ -8,8 +8,6 @@ import org.testng.annotations.Test;
 import playwright.pages.AdminPage;
 import utils.TestBase;
 
-import javax.naming.ConfigurationException;
-
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
 /**
@@ -26,7 +24,7 @@ public class LoginTests extends TestBase {
     }
 
     @BeforeMethod
-    void setup() throws ConfigurationException {
+    void setup() {
         adminPage = new AdminPage(page);
     }
 

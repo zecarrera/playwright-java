@@ -3,12 +3,10 @@ package playwright.pages;
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 
-import javax.naming.ConfigurationException;
-
 public class AdminPage extends BasePage{
 
     Page page;
-    public AdminPage(Page page) throws ConfigurationException {
+    public AdminPage(Page page) {
         super();
         this.page = page;
     }

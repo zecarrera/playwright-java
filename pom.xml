@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>examples</artifactId>
+    <groupId>zecarrera.playwright.java</groupId>
+    <artifactId>playwright-java</artifactId>
     <version>0.1-SNAPSHOT</version>
     <name>Playwright Java example</name>
     <properties>
@@ -22,6 +22,12 @@
             <artifactId>testng</artifactId>
             <version>7.10.2</version>
             <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java -->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>dotenv-java</artifactId>
+            <version>3.0.1</version>
         </dependency>
     </dependencies>
     <build>
