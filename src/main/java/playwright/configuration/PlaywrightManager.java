@@ -22,10 +22,10 @@ public class PlaywrightManager {
      * Identifies configuration browserType and launches a new browser
      *
      */
-    public Browser getBrowser() {
+    public Browser getBrowser(String browserName) {
         if (browser == null) {
             BrowserType browserType;
-            switch (configuration.getBrowser().toLowerCase()) {
+            switch (browserName.toLowerCase()) {
                 case "firefox":
                     browserType = Playwright.create().firefox();
                     break;

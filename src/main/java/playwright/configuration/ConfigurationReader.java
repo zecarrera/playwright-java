@@ -18,8 +18,6 @@ public class ConfigurationReader {
 
     }
 
-    public String getBrowser() { return dotenv.get("BROWSER");}
-
     public boolean isHeadless() { return Boolean.parseBoolean(dotenv.get("HEADLESS"));}
 
     public String getBaseUrl() { return dotenv.get("BASE_URL");}
