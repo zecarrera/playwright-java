@@ -53,6 +53,25 @@
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
+            <!-- Maven PMD Plugin for static code validation -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.23.0</version>
+                <configuration>
+                    <!-- failOnViolation is actually true by default, but can be disabled -->
+                    <failOnViolation>true</failOnViolation>
+                    <!-- printFailingErrors is pretty useful -->
+                    <printFailingErrors>true</printFailingErrors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
