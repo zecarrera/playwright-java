@@ -5,12 +5,9 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
-  playwright:
-    name: 'Playwright Tests'
+  setup:
+    name: 'Setup Environment'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        browser: [ chromium, firefox, webkit ]
     container:
       image: mcr.microsoft.com/playwright/java:v1.45.0-jammy
     steps:
@@ -24,13 +21,50 @@ jobs:
           java-version: '21'
 
       - name: Build & Install
-        run: mvn -B install -D skipTests --no-transfer-progress
+        run: mvn -B install -DskipTests --no-transfer-progress
 
-      - name: Run PMD Source code analysis
+      - name: Cache Maven dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+  pmd-analysis:
+    name: 'PMD Analysis'
+    runs-on: ubuntu-latest
+    needs: setup
+    container:
+      image: mcr.microsoft.com/playwright/java:v1.45.0-jammy
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run PMD Source Code Analysis
         run: mvn pmd:pmd
 
-      - name: Run Playwright tests
-        run: mvn test -Dtestng.xml=./testng.xml  -Dbrowser=${{ matrix.browser }}
+      - name: Upload PMD Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: pmd-report
+          path: target/site/pmd.html
+
+  playwright-tests:
+    name: 'Playwright Tests'
+    runs-on: ubuntu-latest
+    needs: setup
+    strategy:
+      matrix:
+        browser: [ chromium, firefox, webkit ]
+    container:
+      image: mcr.microsoft.com/playwright/java:v1.45.0-jammy
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Playwright Tests
+        run: mvn test -Dtestng.xml=path/to/your/testng.xml -Dbrowser=${{ matrix.browser }}
         env:
           HOME: /root
           ENVIRONMENT: development
@@ -38,13 +72,7 @@ jobs:
       - name: Upload Surefire Test Report
         uses: actions/upload-artifact@v4
         with:
-            name: surefire-test-report-${{ matrix.browser }}
-            path: target/surefire-reports
-            if-no-files-found: warn
-            retention-days: 7
-
-      - name: Upload PMD Report
-        uses: actions/upload-artifact@v4
-        with:
-            name: pmd-report
-            path: target/site/pmd.html
+          name: surefire-test-report-${{ matrix.browser }}
+          path: target/surefire-reports
+          if-no-files-found: warn
+          retention-days: 7
