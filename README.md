@@ -6,6 +6,7 @@ This repo contains an example structure using:
 - Testng - Test runner
 - Java
 - Maven
+- GitHub actions
 
 ### Running tests
 
@@ -13,22 +14,19 @@ Running from the terminal:
 
 `mvn clean test`
 
+You can also specify which browser to use by running:
+
+`mvn test -Dbrowser=firefox`
+
+
+#### Pipeline
+
+Tests are automatically triggered using GitHub actions when:
+- PR is raised/updated
+- Changes are pushed to the main branch
+- Tests are configured to run in parallel and on firefox, chromium and webkit
 
 ### Structure overview
 
 
 
-TODO:
-- how to run tests
-  - how to run tests in parallel or change this settings
-- how to toggle between browsers
-- debugging
-  - using trace
-- data driven tests
-  - parameterise using testng
-- login tests using playwright's session management
-- generate test report
-- add linting and formatting
-- accessibility testing
-- run tests on github actions
-- mocking?
