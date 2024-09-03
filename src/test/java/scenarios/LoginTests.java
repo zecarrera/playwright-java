@@ -24,13 +24,13 @@ public class LoginTests extends TestBase {
     }
 
     @BeforeMethod
-    void setup() {
+    void beforeEach() {
         adminPage = new AdminPage(page);
+        adminPage.navigateToLoginPage();
     }
 
     @Test
     void canLoginWithValidCredentials() {
-        adminPage.navigateToLoginPage();
         adminPage.fillOutLoginAndSubmit("admin", "password");
 
         Locator logoutMenuItem = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Logout"));
@@ -39,7 +39,6 @@ public class LoginTests extends TestBase {
 
     @Test
     void cantLoginWithInvalidCredentials(){
-        adminPage.navigateToLoginPage();
         adminPage.fillOutLoginAndSubmit("admin", "incorrect-password");
 
         Locator logoutMenuItem = page.getByRole(AriaRole.LINK, new Page.GetByRoleOptions().setName("Logout"));
