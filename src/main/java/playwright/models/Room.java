@@ -4,13 +4,21 @@ import playwright.enums.RoomDetails;
 import playwright.enums.RoomType;
 
 public class Room {
-    private String roomName;
-    private RoomType type;
+    private final String roomName;
+    private final RoomType type;
     private boolean accessible;
-    private String price;
-    private RoomDetails[] roomDetails;
+    private final String price;
+    private final RoomDetails[] roomDetails;
     public RoomType defaultRoomType = RoomType.Single;
     public boolean defaultRoomAccessibility = false;
+
+    public Room(String roomName, RoomType type, boolean accessible, String price, RoomDetails[] roomDetails) {
+        this.roomName = roomName;
+        this.type = type;
+        this.accessible = accessible;
+        this.price = price;
+        this.roomDetails = roomDetails;
+    }
 
     public Room(String roomName, String price) {
         this.roomName = roomName;
@@ -27,16 +35,8 @@ public class Room {
         return type;
     }
 
-    public void setType(RoomType type) {
-        this.type = type;
-    }
-
     public boolean isAccessible() {
         return accessible;
-    }
-
-    public void setAccessible(boolean accessible) {
-        this.accessible = accessible;
     }
 
     public String getPrice() {
@@ -45,9 +45,5 @@ public class Room {
 
     public RoomDetails[] getRoomDetails() {
         return roomDetails;
-    }
-
-    public void setRoomDetails(RoomDetails[] roomDetails) {
-        this.roomDetails = roomDetails;
     }
 }

@@ -2,7 +2,7 @@ package scenarios;
 
 import com.microsoft.playwright.Locator;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import playwright.enums.RoomDetails;
 import playwright.enums.RoomType;
@@ -24,9 +24,6 @@ public class CreateRoomTests extends TestBase {
     AdminPage adminPage;
     RoomPage roomPage;
 
-    private String roomName;
-    private Room newRoom;
-
     public CreateRoomTests() {
         super(false);
     }
@@ -38,14 +35,21 @@ public class CreateRoomTests extends TestBase {
         adminPage.navigateToLoginPage();
         adminPage.fillOutLoginAndSubmit("admin", "password");
     }
-    @BeforeMethod
-    void beforeEach() {
-        roomName = "test" + Helpers.randomNumber();
-        newRoom = new Room(roomName, "99");
+
+    @DataProvider(name = "roomDataProvider")
+    public Object[][] roomDataProvider() {
+        return new Object[][] {
+                { new Room("test" + Helpers.randomNumber(), RoomType.Double, true, Helpers.randomNumber(999).toString() ,  new RoomDetails[] { RoomDetails.Wifi }) },
+                { new Room("test" + Helpers.randomNumber(), RoomType.Family, false, Helpers.randomNumber(999).toString(),  new RoomDetails[] { RoomDetails.TV }) },
+                { new Room("test" + Helpers.randomNumber(), RoomType.Suite, true, Helpers.randomNumber(999).toString(),  new RoomDetails[] { RoomDetails.Wifi, RoomDetails.Safe }) }
+        };
     }
 
     @Test
     void canCreateANewRoomWithDefaultValues() {
+        String roomName = "test" + Helpers.randomNumber();
+        String roomPrice = Helpers.randomNumber(999).toString();
+        Room newRoom = new Room(roomName, roomPrice);
         roomPage.enterNewRoomDataAndSubmit(newRoom);
 
         Locator roomNameRowElement = page.getByText(roomName);
@@ -53,15 +57,11 @@ public class CreateRoomTests extends TestBase {
         assertThat(roomNameRowElement).isVisible();
     }
 
-    @Test
-    void canCreateANewRoomWithCustomValues() {
-        RoomDetails[] roomDetails = {RoomDetails.Wifi};
-        newRoom.setType(RoomType.Double);
-        newRoom.setAccessible(true);
-        newRoom.setRoomDetails(roomDetails);
+    @Test(dataProvider = "roomDataProvider")
+    void canCreateANewRoomWithCustomValues(Room newRoom) {
         roomPage.enterNewRoomDataAndSubmit(newRoom);
 
-        Locator roomNameRowElement = page.getByText(roomName);
+        Locator roomNameRowElement = page.getByText(newRoom.getRoomName());
         assertThat(roomNameRowElement).isVisible();
     }
 }

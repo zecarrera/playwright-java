@@ -8,6 +8,8 @@ import playwright.configuration.ConfigurationReader;
 import playwright.configuration.PlaywrightManager;
 
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TestBase {
 
@@ -47,7 +49,8 @@ public class TestBase {
     @AfterMethod(alwaysRun = true)
     public void captureScreenshotOnFailure(ITestResult result) {
         if (!result.isSuccess()) {
-            String screenshotName = result.getMethod().getMethodName() + ".png";
+            String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            String screenshotName = result.getMethod().getMethodName() + "_" + timestamp + ".png";
             page.screenshot(new Page.ScreenshotOptions().setPath(Paths.get("target", "screenshots", screenshotName)).setFullPage(true));
             System.out.println("Screenshot taken for failed test: " + screenshotName);
         }
