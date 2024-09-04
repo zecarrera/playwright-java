@@ -12,10 +12,6 @@ This repo contains an example end-to-end test framework using:
 
 Running from the terminal:
 
-`mvn clean test`
-
-You can also specify which browser to use by running:
-
 `mvn test -Dbrowser=firefox`
 
 #### Pipeline

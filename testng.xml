@@ -1,19 +1,7 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="tests" thread-count="3">
-    <test name="Chromium Tests">
-        <parameter name="browser" value="chromium" />
-        <packages>
-            <package name="scenarios"/>
-        </packages>
-    </test>
-    <test name="Firefox Tests">
-        <parameter name="browser" value="firefox" />
-        <packages>
-            <package name="scenarios"/>
-        </packages>
-    </test>
-    <test name="Webkit Tests">
-        <parameter name="browser" value="webkit" />
+    <test name="Browser Tests">
+        <parameter name="browsers" value="chromium,firefox,webkit" />
         <packages>
             <package name="scenarios"/>
         </packages>
