@@ -84,7 +84,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const issueTitle = `Workflow failed: ${context.workflow}`;
+            const issueTitle = `Workflow failed: ${context.workflow} (Run #${process.env.GITHUB_RUN_NUMBER})`;
             const issueBody = `
               The workflow ${context.workflow} failed.
             
