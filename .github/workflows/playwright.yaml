@@ -4,6 +4,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: '0 12 * * *'
 jobs:
   setup:
     name: 'Setup Environment'
@@ -76,3 +78,19 @@ jobs:
           path: target/surefire-reports
           if-no-files-found: warn
           retention-days: 7
+
+      - name: Notify on Failure
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const issueTitle = `Workflow failed: ${context.workflow}`;
+            const issueBody = `The workflow ${context.workflow} failed for the following reason:\n\n${context.payload}`;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            await github.issues.create({
+              owner,
+              repo,
+              title: issueTitle,
+              body: issueBody,
+            });
