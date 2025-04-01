@@ -88,7 +88,7 @@ jobs:
             const issueBody = `The workflow ${context.workflow} failed for the following reason:\n\n${context.payload}`;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            await github.issues.create({
+            await github.rest.issues.create({
               owner,
               repo,
               title: issueTitle,
