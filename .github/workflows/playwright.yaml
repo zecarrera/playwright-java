@@ -85,7 +85,14 @@ jobs:
         with:
           script: |
             const issueTitle = `Workflow failed: ${context.workflow}`;
-            const issueBody = `The workflow ${context.workflow} failed for the following reason:\n\n${context.payload}`;
+            const issueBody = `
+              The workflow ${context.workflow} failed for the following reason:
+            
+              Job: ${context.job}
+              Run ID: ${context.runId}
+              Repository: ${context.repo.owner}/${context.repo.repo}
+              Error: ${JSON.stringify(context.payload, null, 2)}
+            `;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
             await github.rest.issues.create({
