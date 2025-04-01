@@ -79,6 +79,12 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+      - name: Generate Test Summary
+        uses: test-summary/action@v2
+        with:
+          paths: "target/surefire-reports/**/*.xml"
+          id: test_summary
+
       - name: Notify on Failure
         if: failure()
         uses: actions/github-script@v6
@@ -91,7 +97,8 @@ jobs:
               Job: ${context.job}
               Run ID: ${context.runId}
               Repository: ${context.repo.owner}/${context.repo.repo}
-              Error: ${JSON.stringify(context.payload, null, 2)}
+              Test Summary:
+              ${steps.test_summary.outputs.summary}
             `;
             const owner = context.repo.owner;
             const repo = context.repo.repo;
