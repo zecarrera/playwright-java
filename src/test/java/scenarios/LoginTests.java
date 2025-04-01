@@ -41,6 +41,6 @@ public class LoginTests extends TestBase {
     void cantLoginWithInvalidCredentials(){
         adminPage.fillOutLoginAndSubmit("admin", "incorrect-password");
 
-        assertThat(adminPage.loginErrorMessage()).containsText("Invalid credentials");
+        assertThat(adminPage.loginErrorMessage()).containsText("Invalid credentials-FAIL");
     }
 }
