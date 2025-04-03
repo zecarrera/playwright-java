@@ -30,12 +30,13 @@ Screenshots are captured to `target/screenshots` if any tests fail.
 Tests are automatically triggered using GitHub actions when:
 - PR is raised/updated
 - Changes are pushed to the main branch
-- Tests are configured to run in parallel and on firefox, chromium and webkit
-- Static code validation is executed
+  - Tests are configured to run in parallel and on firefox, chromium and webkit
+
+A test report is uploaded as an artifact, once tests finish.
 
 ## Static code analysis
 
-PMD source code analyzer is configured to run and produce a report on CI
+PMD source code analyzer is configured to run and produce a report on CI (available as an artifact)
 
 It can also be run from the terminal:
 
